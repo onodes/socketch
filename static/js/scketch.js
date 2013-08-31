@@ -8,7 +8,6 @@ const url = "ws://localhost:8888/websocket";
 
 var ws;
 
-// FireFoxとの互換性を考慮してインスタンス化
 if ("WebSocket" in window) {
     ws = new WebSocket(url);
 } else if ("MozWebSocket" in window) {
@@ -42,7 +41,6 @@ canvas.addEventListener('mousedown', function(e){
 
 window.addEventListener('mousemove', function(e){
 	if(!down) return;
-	// console.log(e.clientX, e.clientY);
 
 	context.lineTo(e.clientX, e.clientY);
 	context.stroke();

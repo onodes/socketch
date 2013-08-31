@@ -9,6 +9,7 @@ class Application(tornado.web.Application):
 	def __init__(self):
 		handlers = [
 			(r"/", MainHandler),
+			(r"/sketch", SketchHandler),
 			(r"/websocket", SocketHandler),
 			]
 		
@@ -21,22 +22,21 @@ class Application(tornado.web.Application):
 class MainHandler(tornado.web.RequestHandler):
     def get(self):
         self.render("index.html")
+        
+        
+class SketchHandler(tornado.web.RequestHandler):
+    def get(self):
+        self.render("sketch.html")
 
 
 cone = []
 class SocketHandler(tornado.websocket.WebSocketHandler):
-	# waiters = set()
-	# cache = []
-	# cache_size = 200
 
 	def open(self):
-		# SocketHandler.waiters.add(self)
 		print "WebSocket opend"
 		cone.append(self)
 
 	def on_message(self, message):
-		# message = json.dumps(message)
-
 		print message
 
 		for i in cone:
@@ -45,7 +45,6 @@ class SocketHandler(tornado.websocket.WebSocketHandler):
 
 
 	def on_close(self):
-		# SocketHandler.waiters.remove(self)
 		print "WebSocket closed"
 		if self in cone:
 			cone.remove(self)
